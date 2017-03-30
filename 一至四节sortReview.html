@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript" src="js/testHelper.js"></script>
+		<script type="text/javascript">
+			//选择排序算法
+			function selectedSort(arr) {
+				for(var i = 0; i < arr.length; i += 1) {
+					for(var j = i + 1; j < arr.length; j += 1) {
+						//if条件不能写入for循环的原因是，选择排序需要遍历所有的剩余元素
+						//如果写入for循环，那么只要碰到不满足的条件那么循环就会终止，故而
+						//只能写在if语句中
+						if(arr[i] > arr[j]) {
+							Helper.swap(arr, i, j);
+						}
+					}
+				}
+			};
+			//冒泡排序算法、
+			function bubbleSort(arr) {
+				for(var i = 0; i < arr.length; i += 1) {
+					for(var j = 0; j < arr.length; j += 1) {
+						if(arr[j + 1] < arr[j]) {
+							Helper.swap(arr, j, j + 1);
+						}
+					}
+
+				}
+			};
+			//冒泡排序算法改进型
+			function bubbleDevSort(arr) {
+				var n = arr.length;
+				for(var i = 0; i < arr.length; i += 1) {
+					//j<n-i-1,减1的原因是数组是从0开始的，同时下面的下一元素j+1
+					for(var j = 0; j < n - i - 1; j += 1) {
+						if(arr[j] > arr[j + 1]) {
+							Helper.swap(arr, j, j + 1);
+						}
+					}
+				}
+			};
+
+			//插入排序
+			function insertSort(arr) {
+				for(var i = 1; i < arr.length; i += 1) {
+					for(var j = i; j > 0 && arr[j] < arr[j - 1]; j -= 1) {
+						Helper.swap(arr, j, j - 1);
+					}
+				}
+			};
+			//插入排序改进
+			function insertDevSort(arr) {
+				for(var i = 1; i < arr.length; i += 1) {
+					var value = arr[i];
+					//注意改进型是使用的value进行比较的					
+					for(var j = i; j > 0 && value < arr[j - 1]; j -= 1) {
+						arr[j] = arr[j - 1];
+					}
+					//j属于这个函数作用域，故而可以取到
+					arr[j] = value;
+				}
+			};
+			//归并排序算法
+			function mergeSort(arr) {
+				var r = arr.length - 1;
+				var l = 0;
+				_merge(arr, l, r);
+
+				function _merge(arr, l, r) {
+					if(l >= r) {
+						return;
+					}
+					var mid = parseInt((l + r) / 2);
+					_merge(arr, l, mid);
+					_merge(arr, mid + 1, r);
+					//优化方案（近乎有序的数据效果明显）
+					if(arr[mid] > arr[mid + 1]) {
+						_merageSort(arr, l, r, mid);
+					}
+
+				};
+
+				function _merageSort(arr, l, r, mid) {
+					var buffer = [];
+					//复制传递进来的虚拟数组
+					for(var i = l; i <= r; i += 1) {
+						buffer[i - l] = arr[i];
+					}
+					var i = l,
+						j = mid + 1;
+					for(var k = l; k <= r; k += 1) {
+						if(i > mid) {
+							arr[k] = buffer[j - l];
+							j += 1;
+						} else if(j > r) {
+							arr[k] = buffer[i - l];
+							i += 1;
+						} else if(buffer[i - l] > buffer[j - l]) {
+							arr[k] = buffer[j - l];
+							j += 1;
+						} else {
+							arr[k] = buffer[i - l];
+							i += 1;
+						}
+					}
+				};
+			};
+
+			(function main() {
+				Helper.testSort(selectedSort, "selectedSort算法", 10000, 100000);
+				Helper.testSort(bubbleSort, "bubbleSort算法", 10000, 100000);
+				Helper.testSort(bubbleDevSort, "bubbleDevSort算法", 10000, 100000);
+				Helper.testSort(insertSort, "insertSort算法", 10000, 100000);
+				Helper.testSort(insertDevSort, "insertDevSort算法", 10000, 100000);
+				Helper.testSort(mergeSort, "mergeSort算法", 10000, 100000);
+			}());
+		</script>
+	</body>
+
+</html>

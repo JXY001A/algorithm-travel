@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript" src="js/testHelper.js"></script>
+		<script type="text/javascript">
+			//选择排序算法
+			function selectSort(arr) {
+				for(var i = 0; i < arr.length - 1; i++) {
+					var minIndex = i;
+					for(var j = i + 1; j < arr.length; j++) {
+						if(arr[i] > arr[j]) {
+							minIndex = j;
+							Helper.swap(arr, i, minIndex);
+						}
+					}
+				}
+			}
+
+			function selectSortReview(arr) {
+				for(var i = 0; i < arr.length; i += 1) {
+					for(var j = i + 1; j < arr.length; j += 1) {
+						if(arr[i] > arr[j]) {
+							Helper.swap(arr, i, j);
+						}
+					}
+				}
+			}
+			(function main() {
+				Helper.testSort(selectSortReview, "Selection算法", 1000, 100000);
+			}());
+		</script>
+	</body>
+
+</html>

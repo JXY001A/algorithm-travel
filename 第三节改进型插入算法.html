@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript" src="js/testHelper.js"></script>
+		<script type="text/javascript">
+			function developeInsertSort(arr) {
+				for(var i = 1; i < arr.length; i += 1) {
+					var e = arr[i];
+					var j;
+					for(j = i; j > 0 && arr[j - 1] > e; j -= 1) {
+						arr[j] = arr[j - 1];
+					}
+					arr[j] = e;
+				}
+			}
+
+			function insertSort(arr) {
+				for(var i = 1; i < arr.length; i += 1) {
+					for(var j = i; j > 0; j -= 1) {
+						if(arr[j] < arr[j - 1]) {
+							Helper.swap(arr, j, j - 1);
+						} else {
+							break;
+						}
+					}
+				}
+			}
+			(function main() {
+				Helper.testSort(developeInsertSort, "developeInsertSort算法", 10000, 100000);
+				//				改进 型的算法是原始的10倍
+				Helper.testSort(insertSort, "Selection算法", 10000, 100000);
+			}());
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript" src="testHelper.js"></script>
+		<script type="text/javascript">
+			function bubbuleSort(arr) {
+				for(var i = 0; i < arr.length; i += 1) {
+					for(var j = 0; j < arr.length - 1; j += 1) {
+						if(arr[j + 1] < arr[j]) {
+							Helper.swap(arr, j, j + 1);
+						}
+					}
+				}
+			};
+
+			function bubbuleSortDevelop(arr) {
+				for(var i = 0; i < arr.length; i += 1) {
+					for(var j = 0; j < arr.length - 1 - i; j += 1) {
+						if(arr[j + 1] < arr[j]) {
+							Helper.swap(arr, j, j + 1);
+						}
+					}
+				}
+			};
+
+			function bubbleMoreDevelopSort(arr) {
+				var swaped;
+				var n = arr.length;
+				do {
+					swaped = false;
+					for(var i = 0; i < n; i++) {
+						if(arr[i + 1] < arr[i]) {
+							Helper.swap(arr, i, i + 1);
+							//为了终止不必要的外部循环，只有当数组排序完成后swaped将不会再被设置为true,故而外部循环终止
+							swaped = true;
+						}
+					}
+					//每当一次for循环完成时
+					//数组的最后一个位置将被设置为最大值
+					//故而排除不必要的重复，达到优化的效果
+					n -= 1;
+				} while (swaped);
+			};
+
+			Helper.testSort(bubbuleSort, "bubbuleSort算法", 10000, 100000);
+			Helper.testSort(bubbuleSortDevelop, "bubbuleSortDevelop算法", 10000, 100000);
+			Helper.testSort(bubbleMoreDevelopSort, "bubbleMoreDevelopSort算法", 10000, 100000);
+		</script>
+	</body>
+
+</html>
