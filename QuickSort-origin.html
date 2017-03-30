@@ -9,7 +9,7 @@
 	<body>
 		<script type="text/javascript" src="js/testHelper.js"></script>
 		<script type="text/javascript">
-			var QuickSort_origin=(function() {
+			var QuickSort_origin = (function() {
 				//quickSort的公开调用接口
 				function quickSort(arr) {
 					_quicksort(arr, 0, arr.length - 1);
@@ -17,7 +17,7 @@
 				//快速 排序中递归数组（也就是将 数组不断地分割，知道 最小单位<一个元素>）
 				function _quicksort(arr, l, r) {
 					//如果已分割的数组只有一个元素时，终止函数执行
-					if(l >=r) {
+					if(l >= r) {
 						return;
 					}
 					var p = _quick(arr, l, r);
@@ -48,11 +48,11 @@
 					return j;
 				}
 				//返回quickSort调用API
-				return{
-					quickSort:quickSort
+				return {
+					quickSort: quickSort
 				};
 			})();
-			
+
 			(function main() {
 				Helper.testSort(QuickSort_origin.quickSort, "quickSort算法", 1000000, 100000);
 			})();
