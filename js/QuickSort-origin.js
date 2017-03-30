@@ -1,3 +1,6 @@
+/*
+ *原始的快速排序算法实现 
+ */
 var QuickSort_origin = (function() {
 	//quickSort的公开调用接口
 	function quickSort(arr) {
