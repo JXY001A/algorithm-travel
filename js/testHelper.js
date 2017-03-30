@@ -7,6 +7,9 @@ var Helper = {
 	},
 	//randomRang方法用于产生指定数量和范围的随机数，一数组形式返回
 	randomRang:function(num,rangL,rangR){
+		var num=num||1;
+		var rangL=rangL||0;
+		var rangR=rangR||1;
 		var arr=[];
 		for (var i=0;i<num;i++) {
 			arr.push(~~(Math.random()*(rangR-rangL+1)+rangL));
