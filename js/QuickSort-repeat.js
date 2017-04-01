@@ -7,7 +7,7 @@
  */
 var QuickSort_repeat = (function() {
 	//快速排序算法（针对大量重复性的数组优化）
-	function quickSout(arr) {
+	function quickSort(arr) {
 		_quickSort(arr, 0, arr.length);
 	}
 
@@ -74,6 +74,6 @@ var QuickSort_repeat = (function() {
 	}
 	//公开经过优化的快速排序的API
 	return {
-		quickSout: quickSout
+		quickSort: quickSort
 	};
 })();
