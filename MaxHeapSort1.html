@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript" src="js/testHelper.js"></script>
+		<script type="text/javascript" src="js/MaxHeap.js"></script>
+		<script type="text/javascript">
+			//堆排序算法1
+			function heapSort1(arr){
+				//初始化一个堆
+				MaxHeap.maxHeap();
+				//将数组数据insert进堆中
+				for (var i=0;i<arr.length;i+=1) {
+					MaxHeap.insert(arr[i]);
+				}
+				var j=arr.length-1;
+				while(!MaxHeap.isEmpty()){
+					arr[j--]=MaxHeap.extractMax();
+				}
+			}
+			
+			//堆排序算法2
+			function heapSort2(arr){
+				//初始化堆
+				MaxHeap.maxHeap();
+				//将数组转化进入堆中的data数组中
+				MaxHeap.arrToData(arr);
+				//从第一个非叶子节点开始，进行shiftDown操作
+				//第一个叶子节点就是 parseInt(count/2) <count==arr.length>
+				//这样就可以在经一个数组构建为一个堆
+				for (var j=parseInt(arr.length/2);j>=1;j-=1) {
+					MaxHeap.shiftDown(j);
+				}
+				//将堆中的数据取出来，并顺序排好
+				for (var j=arr.length-1;j>=0;j-=1) {
+					arr[j]=MaxHeap.extractMax();
+				}
+			}
+			Helper.testSort(heapSort1, "heapSort1算法", 100000, 10000);
+			Helper.testSort(heapSort2, "heapSort2算法", 100000, 10000);
+			
+		</script>
+	</body>
+</html>
