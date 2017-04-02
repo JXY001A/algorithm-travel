@@ -46,14 +46,10 @@ var MaxHeap = (function() {
 		data = [];
 		count = 0;
 	}
+	
 	//获取对中的数据量
 	function getSize() {
 		return count;
-	}
-	//清空堆
-	function clearHeap() {
-		data = [];
-		count = 0;
 	}
 	//判断堆是否为空
 	function isEmpty() {
@@ -82,13 +78,22 @@ var MaxHeap = (function() {
 			return;
 		}
 	}
+	//将数组直接拷贝进入data数组中
+	function arrToData(arr){
+		//注意count记录的是填入堆中的数据的数量
+		count=arr.length;
+		for (var i=0;i<arr.length;i+=1) {
+			data[i+1]=arr[i];
+		}
+	}
 	//公开堆调用的API
 	return {
 		maxHeap: maxHeap,
 		getSize: getSize,
-		clearHeap: clearHeap,
 		insert: insert,
 		isEmpty: isEmpty,
-		extractMax: extractMax
+		extractMax: extractMax,
+		arrToData:arrToData,
+		shiftDown:shiftDown
 	};
 })();
