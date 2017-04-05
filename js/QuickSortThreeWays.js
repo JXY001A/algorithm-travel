@@ -3,7 +3,7 @@
  * Email:JXY001A@aliyu.com
  * version:1.0
  * github:www.github/JXY001A
- * desc:该快速排序是针对，排序算法对重复性较高，及几乎有序的数据怕排序
+ * desc:该快速排序是针对，排序算法对重复性较高，及几乎有序的数据排序
  * 效率低下的问题，进行的最终优化
  */
 var QuickSortThreeWays = (function() {
