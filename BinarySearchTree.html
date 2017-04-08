@@ -8,46 +8,51 @@
 
 	<body>
 		<script type="text/javascript" src="js/bible-string.js"></script>
+		<script type="text/javascript" src="js/ToolsBox.js"></script>
 		<script type="text/javascript">
-			var str = "hell world ! jin xian yu!";
-			console.log(readStringToWords(str));
+//			var str = "hell world ! jin xian yu!";
+//			console.log(ToolsBox.readStringToWords(str));
 
-			function readStringToWords(str) {
-				var start = 0;
-				var arr = [];
-				//返回字符串第一个单词首字母的位置
-				function _firstWordsIndex(str, start) {
-					for(var i = start; i < str.length; i += 1) {
-						if(_isLettler(str[i])) {
-							return i;
-						}
-					}
-					return str.length;
+			var BST = (function(){
+				//private,定义节点
+				function Node(){
+					this.key=null;
+					this.value=null;
+					this.left= this.right=null;
 				}
-
-				//判断一个字符是不是字母
-				function _isLettler(char) {
-					var code = char.charCodeAt(0);
-					if(code <= 122 && code >= 97 || code >= 65 && code <= 90) {
-						return true;
-					} else {
-						return false;
-					}
+				Node.prototype.node=function(key,value){
+					this.key=key;
+					this.value=value;
+					this.right=this.left=null;
+				};
+				//记录节点的数量
+				var count=0;
+				//根节点
+				var root=0;
+				//返回节点的数量
+				function size(){
+					return count;
 				}
-				//获取字符串中第一个单词的位置首字母位置
-				start = _firstWordsIndex(str, start);
-				for(var i = start; i < str.length;) {
-					if(!_isLettler(str[i])) {
-						arr.push(str.substr(start, i - start));
-						start = _firstWordsIndex(str, i);
-						//避免死循环发生
-						i = start + 1;
-					} else {
-						i++;
-					}
+				//判断二叉树是否为空
+				function isEmpty(){
+					return count==0;
 				}
-				return arr;
-			}
+				//向二叉树中插入一个新的节点
+				function  insert(key,value){
+					
+				}
+				//判断该二叉树是否包含指定的节点(键值)
+				function contain(key){
+					
+				}
+				//通过传入的键值，搜索到树中的节点
+				function search(key){
+					
+				}
+				//private 方法
+				
+			})();
+			
 		</script>
 	</body>
 
