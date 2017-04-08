@@ -10,49 +10,137 @@
 		<script type="text/javascript" src="js/bible-string.js"></script>
 		<script type="text/javascript" src="js/ToolsBox.js"></script>
 		<script type="text/javascript">
-//			var str = "hell world ! jin xian yu!";
-//			console.log(ToolsBox.readStringToWords(str));
-
-			var BST = (function(){
-				//private,定义节点
-				function Node(){
-					this.key=null;
-					this.value=null;
-					this.left= this.right=null;
+			var BST = (function() {
+				//Private,定义节点
+				function Node() {
+					this.key = null;
+					this.value = null;
+					this.left;
+					this.right;
 				}
-				Node.prototype.node=function(key,value){
-					this.key=key;
-					this.value=value;
-					this.right=this.left=null;
+				Node.prototype.initNode = function(key, value) {
+					this.key = key;
+					this.value = value;
+					this.right = this.left = null;
 				};
 				//记录节点的数量
-				var count=0;
+				var count = 0;
 				//根节点
-				var root=0;
+				var root = null;
+
+				//Public 
 				//返回节点的数量
-				function size(){
+				function size() {
 					return count;
 				}
 				//判断二叉树是否为空
-				function isEmpty(){
-					return count==0;
+				function isEmpty() {
+					return count == 0;
 				}
 				//向二叉树中插入一个新的节点
-				function  insert(key,value){
-					
+				function insert(key, value) {
+					//					console.log(root);
+					root = _insert(root, key, value);
 				}
 				//判断该二叉树是否包含指定的节点(键值)
-				function contain(key){
-					
+				function contain(key) {
+
 				}
 				//通过传入的键值，搜索到树中的节点
-				function search(key){
-					
+				function search(key) {
+
 				}
-				//private 方法
-				
+				//先序遍历循环树
+				function preOrder() {
+					_ergodic_pre(root);
+				}
+				//中序循环遍历树
+				function inOrder() {
+					_ergodic_in(root);
+				}
+				//层级循环树
+				function levleOrder() {
+					var arr = [];
+					arr.push(root);
+					while(arr.length) {
+						var node = arr.shift();
+						console.log(node.key);
+						if(node.left) {
+							arr.push(node.left);
+						}
+						if(node.right) {
+							arr.push(node.right);
+						}
+					}
+				}
+				//Private 方法
+				function _insert(root, key, value) {
+					//的那个递归到节点为空的时候添加之
+					if(root == null) {
+						//节点数量增加1
+						count += 1;
+						var node = new Node();
+						//代用node的初始化方法
+						node.initNode(key, value);
+						//返回新定义的节点
+						return node;
+					}
+					//如果在插入式遇相同的key那么就用新的数据覆盖旧的数据
+					if(root.key == key) {
+						root.value = value;
+						//如果将要插入的键值小于上一个节点的键值，则进入左子树
+					} else if(root.key > key) {
+						root.left = _insert(root.left, key, value);
+					} else {
+						//反之亦然
+						root.right = _insert(root.right, key, value);
+					}
+					/*
+					 * 实际上来说，root节点的引用是不变的，也就没有必使用return操作
+					 * 再将root节点返回，但是在javaScript中函数如果不显式指明返回值，
+					 * 那么则会自动返回undefined。这样就会导致root节点被改写为undefined,
+					 * 这样就会导致接下来的递归无法找到root的引用（指针）,所以我们只能显式的指明
+					 * 返回值的类型（只在递归的第一调用时层执行）
+					 * */
+					return root;
+				}
+				//前序遍历
+				function _ergodic_pre(root) {
+					if(root != null) {
+						console.log(root.key, root.value);
+						_ergodic_pre(root.left);
+						_ergodic_pre(root.right);
+					}
+				}
+				//中序遍历
+				function _ergodic_in(root) {
+					if(root != null) {
+						_ergodic_pre(root.left);
+						console.log(root.key, root.value);
+						_ergodic_pre(root.right);
+					}
+				}
+
+				return {
+					isEmpty: isEmpty,
+					size: size,
+					insert: insert,
+					preOrder: preOrder,
+					inOrder: inOrder,
+					levleOrder:levleOrder
+				};
 			})();
-			
+
+			//测试
+			var str = "hello world ! I am jin xian yu ! welcome to here.";
+			var arr = ToolsBox.readStringToWords(str);
+			console.log(arr);
+			arr.forEach(function(o, i) {
+				BST.insert(o, i);
+			});
+			console.log(" Binary size: " + BST.size());
+			console.log("遍历开始");
+			BST.levleOrder();
 		</script>
 	</body>
 
