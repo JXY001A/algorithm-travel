@@ -72,24 +72,28 @@
 						}
 					}
 				}
-				
+
 				//查找树中的最小值节点
-				function minNode(){
+				function minNode() {
 					var node = _minNode(root);
 					return node;
 				}
 				//查找树中的最大节点值
-				function maxNode(){
+				function maxNode() {
 					var node = _maxNode(root);
 					return node;
 				}
 				//删除树中的最小节点
-				function removeMinNode(){
-					root =_removeMinNode(root);
+				function removeMinNode() {
+					root = _removeMinNode(root);
 				}
 				//删除树中最大节点
-				function  removeMaxNode(){
+				function removeMaxNode() {
 					root = _removeMaxNode(root);
+				}
+				//删除树中的任意指定节点
+				function removeNode(key) {
+					root = _removeNode(root, key);
 				}
 				//Private 方法
 				function _insert(root, key, value) {
@@ -139,41 +143,88 @@
 					}
 				}
 				//递归得到书中的最小节点
-				function _minNode(root){
-					if (root.left==null) {
+				function _minNode(root) {
+					if(root.left == null) {
 						return root;
 					}
 					//类似在严格模式下的尾递归调用优化
 					return _minNode(root.left);
 				}
 				//递归得到树中的最小值
-				function _maxNode(root){
-					if (root.right==null) {
+				function _maxNode(root) {
+					if(root.right == null) {
 						return root;
 					}
 					return _maxNode(root.right);
 				}
 				//删除树中的最先值节点
-				function _removeMinNode(root){
-					if (root.left==null) {
-						var node=root.right;
-						root=null;
+				function _removeMinNode(root) {
+					if(root.left == null) {
+						var node = root.right;
+						root = null;
+						count -= 1;
 						return node;
 					}
-					root.left=_removeMinNode(root.left);
+					root.left = _removeMinNode(root.left);
 					return root;
 				}
 				//删除树中最大值节点
-				function _removeMaxNode(root){
-					if (root.right==null) {
+				function _removeMaxNode(root) {
+					if(root.right == null) {
 						var node = root.left;
-						root=null;
+						root = null;
+						count -= 1;
 						return node;
 					}
-					root.right=_removeMaxNode(root.right);
+					root.right = _removeMaxNode(root.right);
 					return root;
 				}
-				
+				//删除树中任意的节点
+				function _removeNode(root, key) {
+					if(root == null) {
+						return null;
+					}
+					if(root.key < key) {
+						root.right = _removeNode(root.right, key);
+					} else if(root.key > key) {
+						root.left = _removeNode(root.left, key);
+					} else { //root.key==key
+						if(root.left == null) {
+							var node = root.right;
+							root = null;
+							count -= 1;
+							return node;
+						}
+						if(root.right == null) {
+							var node = root.left;
+							root = null;
+							count -= 1;
+							return node;
+						}
+						//root.left!=null && root.right!=null
+						//在这种情况下只能使用该节点的右子树中的最小值，因为它大于所有的
+						//左子树节点，同时小于除他以外的所有右子树节点
+						var node = new Node();
+						//得到该节点的右子树的最小节点
+						var replaceNode = _minNode(root.right);
+						console.log(replaceNode);
+						//使用右子树的最小节点的值来初始化新创建的节点
+						node.initNode(replaceNode.key, replaceNode.value);
+						//将右子树的最小节点删除
+						_removeMinNode(root.right);
+						//将root的左右孩子节点分别赋值到新生成的节点上来
+						node.right = root.right;
+						node.left = root.left;
+						//释放root节点
+						root = null;
+						//树中节点的数量-1
+						count -= 1;
+						//返回新创建的节点
+						return node;
+					}
+					return root;
+				}
+				//返回公有API
 				return {
 					isEmpty: isEmpty,
 					size: size,
@@ -181,10 +232,11 @@
 					preOrder: preOrder,
 					inOrder: inOrder,
 					levleOrder: levleOrder,
-					minNode:minNode,
-					maxNode:maxNode,
-					removeMinNode:removeMinNode,
-					removeMaxNode:removeMaxNode
+					minNode: minNode,
+					maxNode: maxNode,
+					removeMinNode: removeMinNode,
+					removeMaxNode: removeMaxNode,
+					removeNode: removeNode
 				};
 			})();
 
@@ -195,15 +247,18 @@
 			arr.forEach(function(o, i) {
 				BST.insert(o, i);
 			});
-			console.log(" Binary size: " + BST.size());
-			console.log("遍历开始");
+			//			console.log(" Binary size: " + BST.size());
+			console.log("第一次遍历开始");
 			BST.levleOrder();
-			console.log(BST.minNode().key,BST.minNode().value);
-			console.log(BST.maxNode().key,BST.maxNode().value);
-			BST.removeMinNode();
-			BST.removeMaxNode();
-			console.log(BST.minNode().key,BST.minNode().value);
-			console.log(BST.maxNode().key,BST.maxNode().value);
+			//			console.log(BST.minNode().key, BST.minNode().value);
+			//			console.log(BST.maxNode().key, BST.maxNode().value);
+			//			BST.removeMinNode();
+			//			BST.removeMaxNode();
+			//			console.log(BST.minNode().key, BST.minNode().value);
+			//			console.log(BST.maxNode().key, BST.maxNode().value);
+			BST.removeNode("hello");
+			console.log("第二次遍历开始");
+			BST.levleOrder();
 		</script>
 	</body>
 
