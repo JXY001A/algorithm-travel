@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 	</head>
+
 	<body>
 		<script type="text/javascript">
-			
+			var UF1 = (function() {
+				var id;
+				var count;
+
+				function unionFindInit(n) {
+					id = [];
+					count = n;
+					for(var i = 0; i < count; count += 1) {
+						id.push(i);
+					}
+				}
+
+				function find(p) {
+					if(p >= 0 && p < count) {
+						return id[p];
+					}
+				}
+
+				function isConnected(p, q) {
+					return id[p] == id[q];
+				}
+
+				function unionElement(p, q) {
+					var pId = id[p];
+					var qId = id[q];
+					if(pId == qId) {
+						return;
+					}
+					id.forEach(function(o) {
+						if(o == pId) {
+							o = qId;
+						}
+					});
+				}
+
+				return {
+					unionFindInit: unionFindInit,
+					find: find,
+					isConnected: isConnected,
+					unionElement: unionElement
+				};
+			})();
 		</script>
 	</body>
+
 </html>
