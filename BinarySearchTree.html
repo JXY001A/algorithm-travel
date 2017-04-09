@@ -39,7 +39,6 @@
 				}
 				//向二叉树中插入一个新的节点
 				function insert(key, value) {
-					//					console.log(root);
 					root = _insert(root, key, value);
 				}
 				//判断该二叉树是否包含指定的节点(键值)
@@ -72,6 +71,25 @@
 							arr.push(node.right);
 						}
 					}
+				}
+				
+				//查找树中的最小值节点
+				function minNode(){
+					var node = _minNode(root);
+					return node;
+				}
+				//查找树中的最大节点值
+				function maxNode(){
+					var node = _maxNode(root);
+					return node;
+				}
+				//删除树中的最小节点
+				function removeMinNode(){
+					root =_removeMinNode(root);
+				}
+				//删除树中最大节点
+				function  removeMaxNode(){
+					root = _removeMaxNode(root);
 				}
 				//Private 方法
 				function _insert(root, key, value) {
@@ -120,19 +138,58 @@
 						_ergodic_pre(root.right);
 					}
 				}
-
+				//递归得到书中的最小节点
+				function _minNode(root){
+					if (root.left==null) {
+						return root;
+					}
+					//类似在严格模式下的尾递归调用优化
+					return _minNode(root.left);
+				}
+				//递归得到树中的最小值
+				function _maxNode(root){
+					if (root.right==null) {
+						return root;
+					}
+					return _maxNode(root.right);
+				}
+				//删除树中的最先值节点
+				function _removeMinNode(root){
+					if (root.left==null) {
+						var node=root.right;
+						root=null;
+						return node;
+					}
+					root.left=_removeMinNode(root.left);
+					return root;
+				}
+				//删除树中最大值节点
+				function _removeMaxNode(root){
+					if (root.right==null) {
+						var node = root.left;
+						root=null;
+						return node;
+					}
+					root.right=_removeMaxNode(root.right);
+					return root;
+				}
+				
 				return {
 					isEmpty: isEmpty,
 					size: size,
 					insert: insert,
 					preOrder: preOrder,
 					inOrder: inOrder,
-					levleOrder:levleOrder
+					levleOrder: levleOrder,
+					minNode:minNode,
+					maxNode:maxNode,
+					removeMinNode:removeMinNode,
+					removeMaxNode:removeMaxNode
 				};
 			})();
 
 			//测试
-			var str = "hello world ! I am jin xian yu ! welcome to here.";
+			var str = "hello world ! i am jin xian yu ! welcome to here.";
 			var arr = ToolsBox.readStringToWords(str);
 			console.log(arr);
 			arr.forEach(function(o, i) {
@@ -141,6 +198,12 @@
 			console.log(" Binary size: " + BST.size());
 			console.log("遍历开始");
 			BST.levleOrder();
+			console.log(BST.minNode().key,BST.minNode().value);
+			console.log(BST.maxNode().key,BST.maxNode().value);
+			BST.removeMinNode();
+			BST.removeMaxNode();
+			console.log(BST.minNode().key,BST.minNode().value);
+			console.log(BST.maxNode().key,BST.maxNode().value);
 		</script>
 	</body>
 
