@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			var UF2 = (function() {
+				var parent;
+				var count;
+				//初始化并查集
+				function unionFindInit(n) {
+					count = n;
+					parent = [];
+					for(var i = 0; i < n; i += 1) {
+						parent.push(i);
+					}
+				}
+				//找到传入节点的根节点
+				function find(p) {
+					if(p < 0 || p >= count) {
+						return null;
+					}
+					//循环找到节点的根节点
+					while(p != parent[p]) {
+						p = parent[p];
+					}
+					return p;
+				}
+				//判断两个节点是否相连接
+				function isConnected(p, q) {
+					return find(p) == find(q);
+				}
+
+				function unionElements(p, q) {
+					var pRoot = find(p);
+					var qRoot = find(q);
+					//两个节点已经连接在一起
+					if(pRoot == qRoot) {
+						return;
+					}
+					//将整个所在的树设置为q所在树子树
+					parent[pRoot] = qRoot;
+				}
+
+				return {
+					unionFindInit: unionFindInit,
+					find: find,
+					isConnected: isConnected,
+					unionElements: unionElements
+				};
+			})();
+		</script>
+	</body>
+
+</html>
