@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			/*
+			 本次优化的本称之为路径压缩，
+			 也就是说，在find的过程中将某个节点的父节点
+			 直接设置为父节点的父节点（爷爷节点）。从而达到
+			 路径压缩的目的，是的整个树的高度下降，以此达到优化的
+			 目的
+			*/
+			var UnionFindRank=(function(){
+				//记录每个节点的父节点
+				var parent;
+				//记录每个节点所在树所拥有的层级数量
+				var rank;
+				var count;
+				//初始化方法
+				function  unionFindrank(n){
+					parent = [];
+					rank = [];
+					count = n;
+					for (var i=0;i<count;i+=1) {
+						parent.push(i);
+						//初始化 时树的层级只有一级（自身）
+						rank.push(1);
+					}
+				}
+				//查找某个指定节点的根节点
+				function find(p){
+					if (p>=count || p<0) {
+						return null;
+					}
+					//只有根节点的父节点指向自身,故依据此可以找到树的根节点
+					/* 路径压缩方案一*/
+					while(p!=parent[p]){
+						//将每一个循环到的节点的父节点重新设置为父节点的父节点
+						//达到路径压缩的目的
+						parent[p] = parent[parent[p]];
+						p=parent[p];
+					}
+					/*
+					* 路径压缩方案二，也就是将所有的子节点全部都设置到
+					* 根节点上，从而在达到理论上的最优
+					* 	if (p!=parent[p]) {
+							p=find(parent[p]);
+					  	}
+						return parent[p];
+					* */
+					
+					//返回分界点
+					return p;
+				}
+				//判断两个节点是否连接在一起
+				function isConnected(p,q){
+					return find(p)==find(q);
+				}
+				//将指定的两个节点连接在一起
+				function unionElements(p,q){
+					var pRoot=find(p);
+					var qRoot=find(q);
+					//两个节点已经连接在一起了
+					if (pRoot == qRoot) {
+						return;
+					}
+					if (rank[pRoot]>rank[qRoot]) {
+						parent[qRoot] = pRoot;
+					}else if (rank[pRoot]< rank[qRoot]) {
+						parent[pRoot] = qRoot;
+					}else{//rank[pRoot]==rank[qRoot]
+						parent[qRoot] = pRoot;
+						rank[pRoot]+=1;
+					}
+				}
+				//公开API
+				return {
+					unionFindrank:unionFindrank,
+					find:find,
+					isConnected:isConnected,
+					unionElements:unionElements
+				};
+			})();
+		</script>
+	</body>
+</html>
