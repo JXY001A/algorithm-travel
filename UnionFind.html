@@ -21,9 +21,10 @@
 				}
 
 				function find(p) {
-					if(p >= 0 && p < count) {
-						return id[p];
+					if (p<0 || p >=count) {
+						return null;
 					}
+					return id[p];
 				}
 
 				function isConnected(p, q) {
