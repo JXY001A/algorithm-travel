@@ -11,12 +11,19 @@
 			var UF2 = (function() {
 				var parent;
 				var count;
+				//增加一个数组来记录每一个节点所拥有的子节点个数
+				//这样在合并的时候可以作为合并的依据，避免使树的高度过高
+				//而降低算法的性能，从而达到优化的目的
+				var num;
 				//初始化并查集
 				function unionFindInit(n) {
 					count = n;
 					parent = [];
+					num = [];
 					for(var i = 0; i < n; i += 1) {
 						parent.push(i);
+						//当初始化时，每个节点只有一个节点（自身）
+						num.push(1);
 					}
 				}
 				//找到传入节点的根节点
@@ -43,7 +50,16 @@
 						return;
 					}
 					//将整个所在的树设置为q所在树子树
-					parent[pRoot] = qRoot;
+					if(num[pRoot] > num[qRoot]) {
+						//将qRoot的根节点指向pRoot
+						//也就是说，将qRoot所在树合并到pRoot所在树
+						parent[qRoot] = pRoot;
+						//qRoot所在树的节点数量加上pRoot所在树的节点数量
+						num[qRoot] += num[pRoot];
+					} else {
+						parent[pRoot] = qRoot;
+						num[pRoot] += num[qRoot];
+					}
 				}
 
 				return {
