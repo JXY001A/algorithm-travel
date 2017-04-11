@@ -61,7 +61,8 @@ var DenseGraph = (function() {
 		}
 		return g[v][w];
 	}
-
+	
+	
 	return {
 		initDenseGraph: initDenseGraph,
 		getNums: getNums,
