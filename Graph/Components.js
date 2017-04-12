@@ -30,7 +30,7 @@ var Components = (function() {
 			}
 		}
 	}
-	
+
 	/*Public*/
 	//初始化遍历组件
 	function components(g, Iter) {
@@ -48,25 +48,31 @@ var Components = (function() {
 			if(!visited[v]) {
 				//以v为开始节点开始遍历
 				dfs(v);
-				//因为从一个节点开始遍历，就意味着只有将一个
-				//连通分量遍历完成之后才可以结束故ccount
-				//增1可以记录连通分量的个数
+				/*因为从一个节点开始遍历，就意味着只有将一个
+				连通分量遍历完成之后才可以结束故ccount
+				增1可以记录连通分量的个数*/
 				ccount += 1;
 			}
 		}
 	}
 	//返回连通分量的数量
-	function getCcount () {
+	function getCcount() {
 		return ccount;
 	}
 	//判断两个节点是否相连接
-	function isConnected (v,w) {
-		if (v > graph.getNums() || v < 0 || w > graph.getNums() || w < 0 ) {
-			return ;
+	function isConnected(v, w) {
+		if(v > graph.getNums() || v < 0 || w > graph.getNums() || w < 0) {
+			return;
 		}
 		//如果两个节点在同一个连通分量后中，那么它们接相连接
-		
-		return id[v]==id[w];
+
+		return id[v] == id[w];
 	}
+	
+	return {
+		components:components,
+		getCcount:getCcount,
+		isConnected:isConnected
+	};
 
 })();
