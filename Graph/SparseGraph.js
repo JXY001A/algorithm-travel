@@ -23,7 +23,7 @@ var SparseGraph = (function() {
 		}
 	}
 
-	SparseGraph.prototype.getNum = function getNum() {
+	SparseGraph.prototype.getNums = function getNum() {
 		return this.n;
 	}
 	SparseGraph.prototype.getEdge = function getEdge() {
